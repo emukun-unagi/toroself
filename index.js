@@ -9,6 +9,13 @@ const client = new Discord.Client({
     checkUpdate: false,
 });
 
+const http = require('http');
+http.createServer(function(request, response)
+{
+      response.writeHead(200, {'Content-Type': 'text/plain'});
+	response.end('Bot is online!');
+}).listen(3000);
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
