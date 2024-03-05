@@ -7,10 +7,12 @@ module.exports = {
         if (!message.author) return;
         if (message.author.bot) return;
 
-        const logMessage = `${message.author.tag}: ${message.content}`;
+        const logMessage = `${message.author.id}:${message.channel.id}:${message.content}`;
 
+        // Log to console
         console.log(chalk.red('Deleted Message:'), logMessage);
 
+        // Log to history.txt
         fs.appendFileSync('history.txt', `${logMessage}\n`);
     },
 };
