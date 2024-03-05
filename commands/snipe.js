@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 module.exports = {
     name: 'snipe',
-    description: 'snipe command',
+    description: 'Retrieve deleted messages from history',
     async execute(message, args) {
         if (message.author.bot) return;
 
@@ -28,11 +28,9 @@ module.exports = {
                 return message.channel.send(`There are not enough deleted messages in the history. (Current count: ${messages.length})`);
             }
 
-            const snipedMessages = messages.slice(-count);
+            const snipedMessage = messages[messages.length - count];
 
-            for (const snipedMessage of snipedMessages) {
-                message.channel.send(snipedMessage);
-            }
+            message.channel.send(snipedMessage);
         });
     },
 };
