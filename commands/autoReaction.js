@@ -4,7 +4,7 @@ module.exports = {
     description: 'Enable or disable auto-reaction with the specified emoji.',
     usage: 'autoReaction <emoji>',
     execute(message, args) {
-        const prefix = process.env.prefix;
+        const prefix = process.env.Prefix;
         const emoji = args[0];
 
         if (!message.content.startsWith(prefix)) return;
