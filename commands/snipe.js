@@ -1,20 +1,21 @@
 const fs = require('fs');
-const { prefix } = require('../config.json');
 
 module.exports = {
     name: 'snipe',
-    description: 'Retrieve deleted messages from history.txt',
+    description: 'snipe command',
     execute(message, args) {
-        if (!message.content.startsWith(prefix)) return;
-
         const snipeCount = args.length > 0 ? parseInt(args[0]) : 1;
+        const channelId = message.channel.id;
 
         const messages = fs.readFileSync('history.txt', 'utf-8').trim().split('\n');
 
-        const snipedMessages = messages.slice(-snipeCount);
+        const snipedMessages = messages
+            .filter(msg => msg.endsWith(`:${channelId}`))
+            .map(msg => msg.split(':').slice(2).join(':'))
+            .slice(-snipeCount);
 
         if (snipedMessages.length === 0) {
-            return message.channel.send('No deleted messages found in history.');
+            return message.channel.send('No deleted messages found in this channel\'s history.');
         }
 
         const fileName = `sniped_messages_${new Date().toISOString()}.txt`;
