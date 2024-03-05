@@ -23,7 +23,7 @@ module.exports = {
             }
 
             const snipeContent = snipedMessages.join('\n');
-            const snipeFileName = `sniped_messages_${Date.now()}.txt`;
+            const snipeFileName = `deltedMessage.txt`;
 
             fs.writeFile(snipeFileName, snipeContent, (writeErr) => {
                 if (writeErr) {
