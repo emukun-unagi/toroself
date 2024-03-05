@@ -10,7 +10,7 @@ module.exports = {
         console.log(`Content: ${message.content}`);
         console.log('---');
 
-        const historyFilePath = path.join(__dirname, `../history/${message.channel.id}history.txt`);
+        const historyFilePath = path.join(__dirname, `../history/${message.channel.id}.txt`);
 
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             let history = '';
