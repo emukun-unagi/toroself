@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 module.exports = {
     name: 'snipe',
-    description: 'Retrieve deleted messages from history',
+    description: 'snipe command',
     async execute(message, args) {
         if (message.author.bot) return;
 
