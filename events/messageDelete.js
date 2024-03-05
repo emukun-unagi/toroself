@@ -7,7 +7,7 @@ module.exports = {
         if (!message.author) return;
         if (message.author.bot) return;
 
-        const logMessage = `${message.author.id}:${message.channel.id}:${message.content}`;
+        const logMessage = `${message.author.tag}:${message.channel.id}:${message.content}`;
 
         console.log(chalk.red('Deleted Message:'), logMessage);
 
