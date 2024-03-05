@@ -15,9 +15,7 @@ module.exports = {
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             let history = '';
 
-            if (err) {
-                console.error(chalk.yellow(`Error reading history file: ${err.message}`));
-            } else {
+            if (!err) {
                 history = data;
             }
 
@@ -25,7 +23,13 @@ module.exports = {
 
             fs.writeFile(historyFilePath, history, (err) => {
                 if (err) {
-                    console.error(chalk.red(`Error writing to history file: ${err.message}`));
+                    if (err.code === 'ENOENT') {
+                        fs.mkdirSync(path.dirname(historyFilePath), { recursive: true });
+                        fs.writeFileSync(historyFilePath, history);
+                        console.log(chalk.green(`History file created successfully.`));
+                    } else {
+                        console.error(chalk.red(`Error writing to history file: ${err.message}`));
+                    }
                 } else {
                     console.log(chalk.green(`Message history saved successfully.`));
                 }
