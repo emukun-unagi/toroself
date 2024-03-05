@@ -1,31 +1,49 @@
 const fs = require('fs');
+const path = require('path');
 
 module.exports = {
     name: 'snipe',
-    description: 'snipe command',
+    description: 'snipe commands',
     execute(message, args) {
-        const snipeCount = args.length > 0 ? parseInt(args[0]) : 1;
-        const channelId = message.channel.id;
+        const snipeCount = parseInt(args[0]) || 1;
 
-        const messages = fs.readFileSync('history.txt', 'utf-8').trim().split('\n');
+        const historyFilePath = path.join(__dirname, `../history/${message.channel.id}history.txt`);
 
-        const snipedMessages = messages
-            .filter(msg => msg.endsWith(`:${channelId}`))
-            .map(msg => msg.split(':').slice(2).join(':'))
-            .slice(-snipeCount);
+        fs.readFile(historyFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error(`Error reading history file: ${err}`);
+                return message.channel.send('An error occurred while retrieving deleted messages.');
+            }
 
-        if (snipedMessages.length === 0) {
-            return message.channel.send('No deleted messages found in this channel\'s history.');
-        }
+            const messages = data.split('\n').filter(Boolean);
+            const snipedMessages = messages.slice(-snipeCount);
 
-        const fileName = `sniped_messages_${new Date().toISOString()}.txt`;
-        fs.writeFileSync(fileName, snipedMessages.join('\n'));
+            if (snipedMessages.length === 0) {
+                return message.channel.send('No deleted messages found.');
+            }
 
-        message.channel.send({
-            files: [{
-                attachment: fileName,
-                name: fileName,
-            }],
+            const snipeContent = snipedMessages.join('\n');
+            const snipeFileName = `sniped_messages_${Date.now()}.txt`;
+
+            fs.writeFile(snipeFileName, snipeContent, (writeErr) => {
+                if (writeErr) {
+                    console.error(`Error writing snipe file: ${writeErr}`);
+                    return message.channel.send('An error occurred while processing deleted messages.');
+                }
+
+                message.channel.send({
+                    files: [{
+                        attachment: snipeFileName,
+                        name: snipeFileName,
+                    }],
+                });
+
+                fs.unlink(snipeFileName, (unlinkErr) => {
+                    if (unlinkErr) {
+                        console.error(`Error deleting snipe file: ${unlinkErr}`);
+                    }
+                });
+            });
         });
     },
 };
