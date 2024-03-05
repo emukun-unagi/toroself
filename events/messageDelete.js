@@ -1,16 +1,18 @@
 const fs = require('fs');
-const chalk = require('chalk');
+const path = require('path');
 
 module.exports = {
     name: 'messageDelete',
-    async execute(message) {
-        if (!message.author) return;
-        if (message.author.bot) return;
+    execute(message) {
+        console.log(`Message deleted in ${message.channel.name}: ${message.content} by ${message.author.tag}`);
 
-        const logMessage = `${message.author.tag}:${message.channel.id}:${message.content}`;
+        const historyFilePath = path.join(__dirname, `../history/${message.channel.id}history.txt`);
+        const logMessage = `${message.author.tag}: ${message.content}\n`;
 
-        console.log(chalk.red('Deleted Message:'), logMessage);
-
-        fs.appendFileSync('history.txt', `${logMessage}\n`);
+        fs.appendFile(historyFilePath, logMessage, (err) => {
+            if (err) {
+                console.error(`Error writing to history file: ${err}`);
+            }
+        });
     },
-};
+}
