@@ -15,7 +15,9 @@ module.exports = {
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             let history = '';
 
-            if (!err) {
+            if (err) {
+                console.error(chalk.yellow(`Error reading history file: ${err.message}`));
+            } else {
                 history = data;
             }
 
