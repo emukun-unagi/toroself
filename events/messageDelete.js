@@ -9,10 +9,8 @@ module.exports = {
 
         const logMessage = `${message.author.id}:${message.channel.id}:${message.content}`;
 
-        // Log to console
         console.log(chalk.red('Deleted Message:'), logMessage);
 
-        // Log to history.txt
         fs.appendFileSync('history.txt', `${logMessage}\n`);
     },
 };
