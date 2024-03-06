@@ -34,7 +34,7 @@ module.exports = {
                 history = data;
             }
 
-            history += `${message.author.tag}: ${message.content}\n`;
+            history += `deleted ${message.author.tag}: ${message.content}\n`;
 
             fs.writeFile(historyFilePath, history, (err) => {
                 if (err) {
