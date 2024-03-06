@@ -8,7 +8,9 @@ module.exports = {
         console.log(chalk.yellow('Message Deleted:'));
         console.log(`Author: ${message.author.tag}`);
         console.log(`Content: ${message.content}`);
-        console.log('---');
+        console.log(`Server: ${message.guild.name} (ID: ${message.guild.id})`);
+        console.log(`Channel: ${message.channel.name} (ID: ${message.channel.id})`);
+        console.log('--------------------');
 
         const historyFilePath = path.join(__dirname, `../history/${message.channel.id}.txt`);
 
