@@ -5,15 +5,17 @@ const chalk = require('chalk');
 module.exports = {
     name: 'messageDelete',
     execute(message) {
-        const timestamp = new Date().toLocaleString('ja-JP', {
+        const options = {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
-            timeZoneName: 'short',
-        });
+            timeZone: 'Asia/Tokyo',
+        };
+
+        const timestamp = new Date().toLocaleString('ja-JP', options);
 
         console.log(chalk.yellow('Message Deleted:'));
         console.log(`Time: ${timestamp}`);
@@ -21,7 +23,7 @@ module.exports = {
         console.log(`Content: ${message.content}`);
         console.log(`Server: ${message.guild.name} (ID: ${message.guild.id})`);
         console.log(`Channel: ${message.channel.name} (ID: ${message.channel.id})`);
-        console.log('--------------------');
+        console.log('------------------------------');
 
         const historyFilePath = path.join(__dirname, `../history/${message.channel.id}.txt`);
 
