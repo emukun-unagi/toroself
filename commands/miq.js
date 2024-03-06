@@ -1,34 +1,44 @@
 const fs = require('fs');
 const Discord = require('discord.js-selfbot-v13');
-const fetch = require('node-fetch');
+const chalk = require('chalk');
+const axios = require('axios');
 
 module.exports = {
     name: 'miq',
-    description: 'Send specified user information and message to miq-api',
+    description: 'Send a message to miq-api with user information',
     async execute(message, args) {
         if (message.author.bot) return;
 
-        if (args.length < 2) {
-            return message.channel.send('Please provide the user mention, ID, or tag, and the message content.');
+        const count = args.length > 0 ? parseInt(args[0]) : 1;
+
+        if (isNaN(count) || count < 1) {
+            return message.channel.send('Please provide a valid positive integer as the number of messages to retrieve.');
         }
 
-        const userIdentifier = args[0];
-        const content = args.slice(1).join(' ');
+        const historyFilePath = `./history/${message.channel.id}.txt`;
 
-        let user;
-        
-        if (userIdentifier.startsWith('<@') && userIdentifier.endsWith('>')) {
-            user = message.mentions.users.first() || await message.client.users.fetch(userIdentifier.slice(2, -1)).catch(() => null);
-        } else {
-            user = await message.client.users.fetch(userIdentifier).catch(() => null);
-        }
+        fs.readFile(historyFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error(`Error reading history file: ${err}`);
+                return message.channel.send('An error occurred while retrieving the deleted messages.');
+            }
 
-        if (!user) {
-            return message.channel.send('Unable to find the specified user.');
-        }
+            const messages = data.trim().split('\n');
 
-        const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(user.username)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(user.displayAvatarURL({ format: 'png' }))}&content=${encodeURIComponent(content)}`;
+            if (messages.length < count) {
+                return message.channel.send(`There are not enough deleted messages in the history. (Current count: ${messages.length})`);
+            }
 
-        message.channel.send(miqApiUrl);
+            const snipedMessage = messages[messages.length - count];
+
+            // ユーザーの情報を取得し、ニックネームを取得
+            const user = message.mentions.users.first() || message.client.users.cache.get(args[1]) || message.author;
+            const nickname = message.guild.members.cache.get(user.id)?.displayName || user.username;
+
+            const miqUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(nickname)}&id=${user.tag}&icon=${encodeURIComponent(user.displayAvatarURL({ format: 'png', dynamic: true, size: 64 }))}&content=${encodeURIComponent(snipedMessage)}`;
+
+            // miqのURLを送信
+            message.channel.send(miqUrl);
+        });
     },
 };
