@@ -5,7 +5,18 @@ const chalk = require('chalk');
 module.exports = {
     name: 'messageDelete',
     execute(message) {
+        const timestamp = new Date().toLocaleString('ja-JP', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short',
+        });
+
         console.log(chalk.yellow('Message Deleted:'));
+        console.log(`Time: ${timestamp}`);
         console.log(`Author: ${message.author.tag}`);
         console.log(`Content: ${message.content}`);
         console.log(`Server: ${message.guild.name} (ID: ${message.guild.id})`);
