@@ -17,7 +17,7 @@ module.exports = {
 
         const timestamp = new Date().toLocaleString('ja-JP', options);
 
-        console.log(chalk.yellow('Message Updated:'));
+        console.log('Message Updated:'));
         console.log(`Time: ${timestamp}`);
         console.log(`Author: ${newMessage.author.tag}`);
         console.log(`Old Content: ${oldMessage.content}`);
