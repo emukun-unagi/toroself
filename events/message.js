@@ -17,7 +17,7 @@ module.exports = {
 
             const timestamp = new Date().toLocaleString('ja-JP', options);
 
-            console.log(chalk.blue('Image Sent:'));
+            console.log('Image Sent:');
             console.log(`Time: ${timestamp}`);
             console.log(`User: ${message.author.tag}`);
             console.log(`Image URL: ${imageUrl}`);
