@@ -17,7 +17,7 @@ module.exports = {
 
         const timestamp = new Date().toLocaleString('ja-JP', options);
 
-        console.log('Message Deleted:'));
+        console.log('Message Deleted:');
         console.log(`Time: ${timestamp}`);
         console.log(`Author: ${message.author.tag}`);
         console.log(`Content: ${message.content}`);
