@@ -1,11 +1,10 @@
-const fs = require('fs');
-const Discord = require('discord.js-selfbot-v13');
+const Discord = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
     name: 'miq2',
     description: 'Send specified user and message information to miq-api',
-    async execute(message, args) {
+    async execute(message) {
         if (message.author.bot) return;
 
         const replyMessage = message.reference?.messageID
