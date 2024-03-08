@@ -7,7 +7,7 @@ const cooldowns = new Map();
 module.exports = {
     name: 'miq',
     description: 'miq command',
-    cooldown: 30,
+    cooldown: 60,
     async execute(message, args) {
         if (message.author.bot) return;
 
