@@ -2,14 +2,23 @@ const fs = require('fs');
 const Discord = require('discord.js-selfbot-v13');
 const fetch = require('node-fetch');
 
-const cooldowns = new Discord.Collection();
+const cooldowns = new Map();
 
 module.exports = {
     name: 'miq',
-    description: 'miq command',
-    cooldown: 10,
-    execute(message, args) {
+    description: 'Send specified user information and message to miq-api',
+    cooldown: 30,
+    async execute(message, args) {
         if (message.author.bot) return;
+
+        if (cooldowns.has(message.author.id)) {
+            const expirationTime = cooldowns.get(message.author.id) + (this.cooldown * 1000);
+
+            if (Date.now() < expirationTime) {
+                const timeLeft = (expirationTime - Date.now()) / 1000;
+                return message.reply(`Please wait ${timeLeft.toFixed(1)} more seconds before reusing the command.`);
+            }
+        }
 
         if (args.length < 2) {
             return message.channel.send('Please provide the user mention, ID, or tag, and the message content.');
@@ -35,23 +44,11 @@ module.exports = {
 
         const name = user.nickname || user.username;
 
-        const now = Date.now();
-        const cooldownAmount = (this.cooldown || 10) * 1000;
-
-        if (cooldowns.has(message.author.id)) {
-            const expirationTime = cooldowns.get(message.author.id) + cooldownAmount;
-
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
-                return message.reply(`It's time to cool down. Please try again in ${timeLeft.toFixed(1)} seconds.`);
-            }
-        }
-
-        cooldowns.set(message.author.id, now);
-        setTimeout(() => cooldowns.delete(message.author.id), cooldownAmount);
-
         const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(user.displayAvatarURL({ format: 'png' }))}&content=${encodeURIComponent(content)}`;
 
         message.channel.send(miqApiUrl);
+
+        cooldowns.set(message.author.id, Date.now());
+        setTimeout(() => cooldowns.delete(message.author.id), this.cooldown * 1000);
     },
 };
