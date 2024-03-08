@@ -17,20 +17,19 @@ module.exports = {
 
         let user;
 
-        // Check if the userIdentifier is a mention or an ID
         if (userIdentifier.startsWith('<@') && userIdentifier.endsWith('>')) {
-            // Mention format
             user = message.mentions.users.first() || await message.client.users.fetch(userIdentifier.slice(2, -1)).catch(() => null);
-        } else {
-            // ID or tag format
+        } else if (/^\d+$/.test(userIdentifier)) {
             user = await message.client.users.fetch(userIdentifier).catch(() => null);
+        } else if (message.guild) {
+            const member = message.guild.members.cache.find((m) => m.user.tag === userIdentifier);
+            user = member ? member.user : null;
         }
 
         if (!user) {
             return message.channel.send('Unable to find the specified user.');
         }
 
-        // Use the user's nickname or username if nickname is not available
         const name = user.nickname || user.username;
 
         const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(user.displayAvatarURL({ format: 'png' }))}&content=${encodeURIComponent(content)}`;
