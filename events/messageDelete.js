@@ -17,10 +17,14 @@ module.exports = {
 
         const timestamp = new Date().toLocaleString('ja-JP', options);
 
-        console.log('Message Deleted:');
         console.log(`Time: ${timestamp}`);
         console.log(`Author: ${message.author.tag}`);
         console.log(`Content: ${message.content}`);
+
+        if (message.attachments.size > 0) {
+            console.log(`Image URL: ${message.attachments.first().url}`);
+        }
+
         console.log(`Server: ${message.guild.name} (ID: ${message.guild.id})`);
         console.log(`Channel: ${message.channel.name} (ID: ${message.channel.id})`);
         console.log('------------------------------');
@@ -34,7 +38,11 @@ module.exports = {
                 history = data;
             }
 
-            history += `deleted ${message.author.tag}: ${message.content}\n`;
+            if (message.attachments.size > 0) {
+                history += `deleted ${message.author.tag}: ${message.content} (Image URL: ${message.attachments.first().url})\n`;
+            } else {
+                history += `deleted ${message.author.tag}: ${message.content}\n`;
+            }
 
             fs.writeFile(historyFilePath, history, (err) => {
                 if (err) {
