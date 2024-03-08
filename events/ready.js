@@ -13,14 +13,10 @@ module.exports = {
         };
 
         const button = {
-            type: 1,
+            type: 2, // TYPE: 2 is a BUTTON with URL
             style: 1,
             label: 'とろろ',
-            emoji: {
-                name: 'icon',
-                id: null,
-            },
-            custom_id: 'profile_button',
+            url: 'https://example.com', // ここに移動するURLを指定
         };
 
         client.user.setPresence(status);
@@ -37,7 +33,7 @@ module.exports = {
             if (!interaction.isButton()) return;
 
             if (interaction.customId === 'profile_button') {
-                interaction.reply('とろろのプロフィール');
+                // ボタンが押されたとき、URLに移動するのでここでは何も返信しない
             }
         });
 
