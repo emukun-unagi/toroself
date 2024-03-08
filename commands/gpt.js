@@ -22,9 +22,11 @@ module.exports = {
                     "model": "gpt-3.5-turbo",
                     "messages": [{
                         "role": "user",
-                        "content": inputText,
+                        "content": inputText
+                    },
+                                 {
                         "role": "system",
-                        "content": "あなたの名前はdis太郎です。あなたは自分のことを指すときに私と言います。あなたは質問に答える優秀なアシスタントです。あなたは語尾にその文にあった絵文字をつけます。"
+                        "content": "あなたの名前はdis太郎です。あなたは自分のことを指すときに私と言います。あなたは相手の質問に答える優秀なアシスタントです。あなたは語尾にその文にあった絵文字をつけます。"
                     }]
                 })
             });
