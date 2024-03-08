@@ -6,7 +6,7 @@ const cooldowns = new Map();
 
 module.exports = {
     name: 'miq',
-    description: 'Send specified user information and message to miq-api',
+    description: 'miq command',
     cooldown: 30,
     async execute(message, args) {
         if (message.author.bot) return;
@@ -16,12 +16,12 @@ module.exports = {
 
             if (Date.now() < expirationTime) {
                 const timeLeft = (expirationTime - Date.now()) / 1000;
-                return message.reply(`Please wait ${timeLeft.toFixed(1)} more seconds before reusing the command.`);
+                return message.reply(`クールダウンタイムです。 ${timeLeft.toFixed(1)} 秒待ってください`);
             }
         }
 
         if (args.length < 2) {
-            return message.channel.send('Please provide the user mention, ID, or tag, and the message content.');
+            return message.channel.send('ユーザーのメンション、ID、タグ、およびメッセージの内容を入力してください。');
         }
 
         const userIdentifier = args[0];
@@ -39,7 +39,7 @@ module.exports = {
         }
 
         if (!user) {
-            return message.channel.send('Unable to find the specified user.');
+            return message.channel.send('指定されたユーザーが見つかりません。');
         }
 
         const name = user.nickname || user.username;
