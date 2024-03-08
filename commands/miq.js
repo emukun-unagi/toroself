@@ -16,7 +16,7 @@ module.exports = {
 
             if (Date.now() < expirationTime) {
                 const timeLeft = (expirationTime - Date.now()) / 1000;
-                return message.reply(`クールダウンタイムです。 ${timeLeft.toFixed(1)} 秒待ってください`);
+                return message.reply(`クールダウンタイムです。${timeLeft.toFixed(1)}秒待ってください`);
             }
         }
 
