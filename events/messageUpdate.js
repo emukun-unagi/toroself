@@ -23,7 +23,6 @@ module.exports = {
         console.log(`Old Content: ${oldMessage.content}`);
         console.log(`New Content: ${newMessage.content}`);
 
-        // Check if the new message contains attachments (images)
         if (newMessage.attachments.size > 0) {
             console.log(`Image URL: ${newMessage.attachments.first().url}`);
         }
@@ -42,7 +41,6 @@ module.exports = {
             }
 
             if (newMessage.attachments.size > 0) {
-                // If message contains attachments, include image URL in history
                 history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content} (Image URL: ${newMessage.attachments.first().url})\n`;
             } else {
                 history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content}\n`;
