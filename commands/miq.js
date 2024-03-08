@@ -21,7 +21,7 @@ module.exports = {
         }
 
         if (args.length < 2) {
-            return message.channel.send('ユーザーのメンション、ID、タグ、およびメッセージの内容を入力してください。');
+            return message.reply('ユーザーのメンション、ID、タグ、およびメッセージの内容を入力してください。');
         }
 
         const userIdentifier = args[0];
@@ -39,14 +39,14 @@ module.exports = {
         }
 
         if (!user) {
-            return message.channel.send('指定されたユーザーが見つかりません。');
+            return message.reply('指定されたユーザーが見つかりません。');
         }
 
         const name = user.nickname || user.username;
 
         const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(user.displayAvatarURL({ format: 'png' }))}&content=${encodeURIComponent(content)}`;
 
-        message.channel.send(miqApiUrl);
+        message.reply(miqApiUrl);
 
         cooldowns.set(message.author.id, Date.now());
         setTimeout(() => cooldowns.delete(message.author.id), this.cooldown * 1000);
