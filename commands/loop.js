@@ -1,0 +1,20 @@
+const { MessageEmbed } = require("discord.js-self");
+const sendError = require("../util/error");
+
+module.exports = {
+  info: {
+    name: "loop",
+    description: "Toggle music loop",
+    usage: "loop",
+    aliases: ["l"],
+  },
+
+  run: async function (client, message, args) {
+    const serverQueue = message.client.queue.get(message.guild.id);
+       if (serverQueue) {
+            serverQueue.loop = !serverQueue.loop;
+            return message.channel.send(`Loop is **${serverQueue.loop === true ? "enabled" : "disabled"}**}`);
+        };
+    return sendError("There is nothing playing in this server.", message.channel);
+  },
+};
