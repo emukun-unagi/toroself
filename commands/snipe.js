@@ -11,7 +11,7 @@ module.exports = {
         const count = args.length > 0 ? parseInt(args[0]) : 1;
 
         if (isNaN(count) || count < 1) {
-            return message.channel.send('取得するメッセージの数として、有効な正の整数を入力してください。');
+            return message.reply('取得するメッセージの数として、有効な正の整数を入力してください。');
         }
 
         const historyFilePath = `./history/${message.channel.id}.txt`;
@@ -19,18 +19,18 @@ module.exports = {
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             if (err) {
                 console.error(`Error reading history file: ${err}`);
-                return message.channel.send('削除されたメッセージの取得中にエラーが発生しました。');
+                return message.reply('削除されたメッセージの取得中にエラーが発生しました。');
             }
 
             const messages = data.trim().split('\n');
 
             if (messages.length < count) {
-                return message.channel.send(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
+                return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
             }
 
             const snipedMessage = messages[messages.length - count];
 
-            message.channel.send(snipedMessage);
+            message.reply(snipedMessage);
         });
     },
 };
