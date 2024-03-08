@@ -22,6 +22,12 @@ module.exports = {
         console.log(`Author: ${newMessage.author.tag}`);
         console.log(`Old Content: ${oldMessage.content}`);
         console.log(`New Content: ${newMessage.content}`);
+
+        // Check if the new message contains attachments (images)
+        if (newMessage.attachments.size > 0) {
+            console.log(`Image URL: ${newMessage.attachments.first().url}`);
+        }
+
         console.log(`Server: ${newMessage.guild.name} (ID: ${newMessage.guild.id})`);
         console.log(`Channel: ${newMessage.channel.name} (ID: ${newMessage.channel.id})`);
         console.log('------------------------------');
@@ -35,7 +41,12 @@ module.exports = {
                 history = data;
             }
 
-            history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content}\n`;
+            if (newMessage.attachments.size > 0) {
+                // If message contains attachments, include image URL in history
+                history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content} (Image URL: ${newMessage.attachments.first().url})\n`;
+            } else {
+                history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content}\n`;
+            }
 
             fs.writeFile(historyFilePath, history, (err) => {
                 if (err) {
