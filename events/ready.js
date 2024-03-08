@@ -1,7 +1,7 @@
 const config = require("../config.json");
 
 module.exports = async (client) => {
-  console.log(`[API] Logged in as ${client.user.username}`);
+  console.log(`${client.user.username} is ready.`);
   await client.user.setActivity(config.status.text, {
     type: config.status.type
   });
