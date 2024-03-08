@@ -35,14 +35,14 @@ module.exports = {
 
             if (data.choices && data.choices.length > 0) {
                 const replyText = data.choices[0].message.content.trim();
-                message.channel.send(replyText);
+                message.reply(replyText);
             } else {
                 console.error('GPT-3 API response is not in the expected format:', data);
-                message.channel.send('エラーが発生しました。後でもう一度やり直してください。');
+                message.reply('エラーが発生しました。後でもう一度やり直してください。');
             }
         } catch (error) {
             console.error('GPT-3 API error:', error);
-            message.channel.send('エラーが発生しました。後でもう一度やり直してください。');
+            message.reply('エラーが発生しました。後でもう一度やり直してください。');
         }
     },
 };
