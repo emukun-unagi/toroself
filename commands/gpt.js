@@ -38,11 +38,11 @@ module.exports = {
                 message.channel.send(replyText);
             } else {
                 console.error('GPT-3 API response is not in the expected format:', data);
-                message.channel.send('An error has occurred, please try again later.');
+                message.channel.send('エラーが発生しました。後でもう一度やり直してください。');
             }
         } catch (error) {
             console.error('GPT-3 API error:', error);
-            message.channel.send('An error has occurred, please try again later.');
+            message.channel.send('エラーが発生しました。後でもう一度やり直してください。');
         }
     },
 };
