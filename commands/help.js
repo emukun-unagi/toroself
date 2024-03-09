@@ -4,7 +4,12 @@ module.exports = {
     name: 'help',
     description: 'Display available commands',
     execute(message, args, commands) {
-        const helpMessage = `**コマンド一覧:**\n\`\`\`\nBot: help,ping\nAi: gpt\nFun: miq\nOther: snipe\n\`\`\``;
+        const helpMessage = `**サーバー情報:**\n\`\`\`\n` +
+            `BOT: ${server.name} (${server.id})\n` +
+            `AI: gpt\n` +
+            `情報: server\n` +
+            `楽しい: snipe, miq\n` +
+            `\`\`\``;
         message.channel.send(helpMessage);
     },
 };
