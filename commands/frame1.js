@@ -21,7 +21,7 @@ module.exports = {
         }
 
         if (!user) {
-            return message.reply('User not found.');
+            return message.reply('ユーザーが見つかりません。');
         }
 
         const avatarURL = user.displayAvatarURL({ format: 'png', size: 512 });
