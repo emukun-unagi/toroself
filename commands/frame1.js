@@ -1,5 +1,6 @@
 const { createCanvas, loadImage } = require('canvas');
 const { prefix } = require('../config.json');
+const path = require('path');
 
 module.exports = {
     name: 'frame1',
@@ -31,7 +32,7 @@ module.exports = {
 
         const [avatar, frame] = await Promise.all([
             loadImage(avatarURL),
-            loadImage('/images/frame1.png'),
+            loadImage(path.join(__dirname, '../images/frame1.png')),
         ]);
 
         canvas.width = avatar.width;
