@@ -10,6 +10,6 @@ module.exports = {
             `情報: server\n` +
             `楽しい: snipe, miq\n` +
             `\`\`\``;
-        message.channel.send(helpMessage);
+        message.reply(helpMessage);
     },
 };
