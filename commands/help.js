@@ -4,7 +4,7 @@ module.exports = {
     name: 'help',
     description: 'Display available commands',
     execute(message, args, commands) {
-        const helpMessage = `**サーバー情報:**\n\`\`\`\n` +
+        const helpMessage = `**コマンド一覧:**\n\`\`\`\n` +
             `BOT: ${server.name} (${server.id})\n` +
             `AI: gpt\n` +
             `情報: server\n` +
