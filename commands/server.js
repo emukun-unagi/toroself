@@ -1,16 +1,17 @@
 module.exports = {
     name: 'server',
-    description: 'server command',
-    execute(message) {
+    description: 'Display server information',
+    async execute(message) {
         if (!message.guild) {
-            return message.channel.send('このコマンドはサーバーでのみ使用できます。');
+            return message.channel.send('This command can only be used in a server.');
         }
 
         const server = message.guild;
-        const owner = server.owner;
+        const owner = await server.members.fetch(server.ownerId).catch(() => null);
+
         const memberCount = server.memberCount;
         const channelCount = server.channels.cache.size;
-        
+
         const roles = server.roles.cache.filter(role => role.name !== '@everyone');
         const roleCount = roles.size;
 
