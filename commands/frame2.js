@@ -31,7 +31,7 @@ module.exports = {
 
         const [avatar, frame] = await Promise.all([
             loadImage(avatarURL),
-            loadImage('./images/frame2.png'),
+            loadImage('../images/frame2.png'),
         ]);
 
         canvas.width = avatar.width;
