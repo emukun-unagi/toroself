@@ -30,10 +30,8 @@ module.exports = {
         const canvas = createCanvas(512, 512);
         const ctx = canvas.getContext('2d');
 
-        const [avatar, frame] = await Promise.all([
-            loadImage(avatarURL),
-            loadImage(path.join(__dirname, '../images/frame1.png')),
-        ]);
+        const avatar = await loadImage(avatarURL);
+        const frame = await loadImage(path.join(__dirname, '../images/frame1.png'));
 
         canvas.width = avatar.width;
         canvas.height = avatar.height;
