@@ -6,7 +6,7 @@ module.exports = {
     description: 'frame1 command',
     async execute(message, args) {
         if (args.length !== 1) {
-            return message.reply(`Usage: \`${prefix}frame1 <user_id | user_mention | user_tag>\``);
+            return message.reply(`ユーザーのメンション、ID、タグのどれかを入力してください。`);
         }
 
         const userIdentifier = args[0];
