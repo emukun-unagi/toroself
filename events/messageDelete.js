@@ -18,7 +18,13 @@ module.exports = {
         const timestamp = new Date().toLocaleString('ja-JP', options);
 
         console.log(`Time: ${timestamp}`);
-        console.log(`Author: ${message.author.tag}`);
+
+        if (message.author) {
+            console.log(`Author: ${message.author.tag}`);
+        } else {
+            console.log(`Author not available (message deleted).`);
+        }
+
         console.log(`Content: ${message.content}`);
 
         if (message.attachments.size > 0) {
@@ -39,9 +45,9 @@ module.exports = {
             }
 
             if (message.attachments.size > 0) {
-                history += `deleted ${message.author.tag}: ${message.content} (Image URL: ${message.attachments.first().url})\n`;
+                history += `deleted ${message.author ? message.author.tag : 'Unknown Author'}: ${message.content} (Image URL: ${message.attachments.first().url})\n`;
             } else {
-                history += `deleted ${message.author.tag}: ${message.content}\n`;
+                history += `deleted ${message.author ? message.author.tag : 'Unknown Author'}: ${message.content}\n`;
             }
 
             fs.writeFile(historyFilePath, history, (err) => {
