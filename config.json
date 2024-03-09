@@ -1,7 +1,7 @@
 {
     "prefix": "+",
     "status": {
-      "text": "dis太郎",
+      "text": "+help",
       "type": "LISTENING",
       "presence": "idle"
     }
