@@ -3,7 +3,7 @@ const { prefix } = require('../config.json');
 
 module.exports = {
     name: 'frame1',
-    description: 'Overlay frame1.png on the user\'s avatar',
+    description: 'frame1 command',
     async execute(message, args) {
         if (args.length !== 1) {
             return message.reply(`Usage: \`${prefix}frame1 <user_id | user_mention | user_tag>\``);
