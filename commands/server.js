@@ -27,6 +27,6 @@ module.exports = {
             `ブースト: ${boostLevel} (${boostCount} boosts)\n` +
             `\`\`\``;
 
-        message.channel.send(serverInfo);
+        message.reply(serverInfo);
     },
 };
