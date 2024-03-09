@@ -17,7 +17,7 @@ module.exports = {
         } else if (/^\d+$/.test(userIdentifier)) {
             user = await message.client.users.fetch(userIdentifier).catch(() => null);
         } else {
-            return message.reply('Invalid user identifier. Please provide a valid user ID, mention, or tag.');
+            return message.reply('無効なユーザーです。 有効なユーザー ID、メンション、またはタグを入力してください。');
         }
 
         if (!user) {
