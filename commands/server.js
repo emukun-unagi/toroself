@@ -15,7 +15,7 @@ module.exports = {
         const roles = server.roles.cache.filter(role => role.name !== '@everyone');
         const roleCount = roles.size;
 
-        const boostLevel = server.premiumTier;
+        const boostLevel = server.premiumTier.replace('TIER_', ''); // Remove the "TIER_" prefix
         const boostCount = server.premiumSubscriptionCount;
 
         const serverInfo = `**サーバー情報:**\n\`\`\`\n` +
