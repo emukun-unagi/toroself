@@ -1,6 +1,6 @@
 module.exports = {
     name: 'ping',
-    description: 'Ping command',
+    description: 'ping command',
     execute(message, args) {
         message.reply('Pinging...').then(sentMessage => {
             const ping = sentMessage.createdTimestamp - message.createdTimestamp;
