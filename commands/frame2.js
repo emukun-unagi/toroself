@@ -6,7 +6,7 @@ module.exports = {
     description: 'frame2 command',
     async execute(message, args) {
         if (args.length !== 1) {
-            return message.reply(`ユーザーのメンション、ID、タグを入力してください。`);
+            return message.reply(`ユーザーのメンション、ID、タグのどれかを入力してください。`);
         }
 
         const userIdentifier = args[0];
