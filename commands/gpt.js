@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports = {
     name: 'gpt',
-    description: 'Generate text using GPT-3.5-turbo',
+    description: 'gpt command',
     async execute(message, args) {
         if (message.author.bot) return;
 
