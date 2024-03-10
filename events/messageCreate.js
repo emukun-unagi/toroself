@@ -1,6 +1,6 @@
-import config from '../config.js';
+const config = require('../config.js');
 
-export default async (client, message) => {
+module.exports = async (client, message) => {
     if (!message.content.startsWith(config.prefix) || message.author.id === client.user.id) return;
 
     if (config.allowed.length !== 0 && !config.allowed.includes(message.author.id)) return;
