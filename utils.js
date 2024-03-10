@@ -1,6 +1,6 @@
-import YouTube from 'youtube-sr';
-import ytdl from 'ytdl-core';
-import { createAudioResource, createAudioPlayer, joinVoiceChannel } from '@discordjs/voice';
+const YouTube = require('youtube-sr');
+const ytdl = require('ytdl-core');
+const { createAudioResource, createAudioPlayer, joinVoiceChannel } = require('@discordjs/voice');
 
 const play = async (song, queue) => {
     const serverQueue = queue.get('queue');
@@ -91,7 +91,7 @@ const joinVChannel = (voiceChannel) => {
     });
 };
 
-export {
+module.exports = {
     play,
     isURL,
     getUrl,
