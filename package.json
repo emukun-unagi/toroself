@@ -2,13 +2,19 @@
   "name": "toroself",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ."
+    "start:toroself": "node .",
+    "start:music-selfbot": "node index.js"
   },
-  "author": "4btin",
+  "author": "4btin and EternalLuxury",
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
     "dotenv": "^16.3.1",
-    "discord.js-selfbot-v13": "^2.14.10"
+    "discord.js-selfbot-v13": "^2.15.0",
+    "discord-player": "^6.6.6",
+    "enmap": "^5.9.8",
+    "opusscript": "^0.0.8",
+    "youtube-sr": "^4.3.4",
+    "ytdl-core": "^4.11.5"
   }
 }
