@@ -1,10 +1,10 @@
-import ytdl from 'ytdl-core';
-import utils from '../utils.js';
+const ytdl = require('ytdl-core');
+const utils = require('../utils.js');
 
 module.exports = {
     name: 'play',
     description: 'Play command',
-    execute: async (client, message, args) => {
+    async execute(client, message, args) {
         const queue = client.queue; // Assuming that 'queue' is a property of the client
 
         if (!args[0]) {
@@ -20,7 +20,7 @@ module.exports = {
 
         const voiceChannel = message.member.voice.channel;
         const serverQueue = queue.get('queue');
-        
+
         try {
             const songInfo = await ytdl.getBasicInfo(FUrl);
 
