@@ -1,5 +1,6 @@
 {
     "prefix": "+",
+    "allowed": [],
     "status": {
       "text": "+help",
       "type": "LISTENING",
