@@ -29,7 +29,6 @@ module.exports = {
 
         console.log(`Server: ${newMessage.guild.name} (ID: ${newMessage.guild.id})`);
         console.log(`Channel: ${newMessage.channel.name} (ID: ${newMessage.channel.id})`);
-        console.log('------------------------------');
 
         const historyFilePath = path.join(__dirname, `../history/${newMessage.channel.id}.txt`);
 
@@ -52,11 +51,14 @@ module.exports = {
                         fs.mkdirSync(path.dirname(historyFilePath), { recursive: true });
                         fs.writeFileSync(historyFilePath, history);
                         console.log(chalk.green(`History file created successfully.`));
+                        console.log('----------------------------------------');
                     } else {
                         console.error(chalk.red(`Error writing to history file: ${err.message}`));
+                        console.log('----------------------------------------');
                     }
                 } else {
                     console.log(chalk.green(`Message history saved successfully.`));
+                    console.log('----------------------------------------');
                 }
             });
         });
