@@ -10,10 +10,8 @@ module.exports = {
     async execute(message, args) {
         const userID = message.author.id;
 
-        // ホワイトリストのファイルパス
         const whitelistPath = path.join(__dirname, '../whitelist.json');
 
-        // ホワイトリストの読み込み
         const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
 
         if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
