@@ -5,7 +5,7 @@ const config = require('../config.json');
 
 module.exports = {
     name: 'help',
-    description: 'Display available commands',
+    description: 'help command',
     execute(message, args, commands) {
         const userID = message.author.id;
 
