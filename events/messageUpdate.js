@@ -19,7 +19,13 @@ module.exports = {
 
         console.log('Message Updated:');
         console.log(`Time: ${timestamp}`);
-        console.log(`Author: ${newMessage.author.tag}`);
+
+        if (newMessage.author) {
+            console.log(`Author: ${newMessage.author.tag}`);
+        } else {
+            console.log('Author: Unknown (User not found)');
+        }
+
         console.log(`Old Content: ${oldMessage.content}`);
         console.log(`New Content: ${newMessage.content}`);
 
@@ -40,9 +46,9 @@ module.exports = {
             }
 
             if (newMessage.attachments.size > 0) {
-                history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content} (Image URL: ${newMessage.attachments.first().url})\n`;
+                history += `edited ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content} -> ${newMessage.content} (Image URL: ${newMessage.attachments.first().url})\n`;
             } else {
-                history += `edited ${newMessage.author.tag}: ${oldMessage.content} -> ${newMessage.content}\n`;
+                history += `edited ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content} -> ${newMessage.content}\n`;
             }
 
             fs.writeFile(historyFilePath, history, (err) => {
