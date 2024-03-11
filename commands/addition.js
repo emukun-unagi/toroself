@@ -12,7 +12,7 @@ module.exports = {
                 return message.reply('追加するユーザーIDを入力してください。');
             }
 
-            const whitelistPath = path.join(__dirname, '../whitelist.json'); // ファイルパスを修正
+            const whitelistPath = path.join(__dirname, '../whitelist.json');
             let whitelist = {};
             try {
                 whitelist = require(whitelistPath);
