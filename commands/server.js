@@ -14,7 +14,7 @@ module.exports = {
         const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
 
         if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
-            return message.reply('このコマンドを使用する権限がありません。');
+            return;
         }
 
         if (!message.guild) {
