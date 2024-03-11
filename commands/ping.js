@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config.json');
+const config = require('../config.json'); // ファイルパスを修正
+const whitelistPath = path.join(__dirname, '../whitelist.json'); // ファイルパスを修正
 
 module.exports = {
     name: 'ping',
     description: 'ping command',
     execute(message, args) {
-        const whitelistPath = path.join(__dirname, 'whitelist.json');
         const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
         const userID = message.author.id;
 
