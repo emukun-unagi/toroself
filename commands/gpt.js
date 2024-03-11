@@ -2,12 +2,22 @@ const fetch = require('node-fetch');
 const { MessageAttachment } = require('discord.js-selfbot-v13');
 const chalk = require('chalk');
 const fs = require('fs');
+const path = require('path');
+const config = require('../config.json');
 
 module.exports = {
     name: 'gpt',
     description: 'gpt command',
     async execute(message, args) {
         if (message.author.bot) return;
+
+        const userID = message.author.id;
+        const whitelistPath = path.join(__dirname, '../whitelist.json');
+        const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
+
+        if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
+            return message.reply('このコマンドを使用する権限がありません。');
+        }
 
         const inputText = args.join(' ');
 
@@ -24,7 +34,7 @@ module.exports = {
                         "role": "user",
                         "content": inputText
                     },
-                                 {
+                    {
                         "role": "system",
                         "content": "あなたの名前はdis太郎です。あなたは自分のことを指すときに私と言います。あなたは相手の質問に答える優秀なアシスタントです。あなたは語尾にその文にあった絵文字をつけます。"
                     }]
