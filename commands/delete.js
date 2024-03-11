@@ -12,7 +12,7 @@ module.exports = {
                 return message.reply('削除するユーザーIDを入力してください。');
             }
 
-            const whitelistPath = path.join(__dirname, 'whitelist.json');
+            const whitelistPath = path.join(__dirname, '../whitelist.json');
             let whitelist = {};
             try {
                 whitelist = require(whitelistPath);
