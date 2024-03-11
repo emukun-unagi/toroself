@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('./config.json');
+const config = require('../config.json');
 
 module.exports = {
     name: 'ping',
