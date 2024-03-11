@@ -1,9 +1,24 @@
+const { prefix } = require('../config.json');
+const fs = require('fs');
+const path = require('path');
+const config = require('../config.json');
+
 module.exports = {
     name: 'server',
-    description: 'Display server information',
+    description: 'server command',
     async execute(message) {
+        const userID = message.author.id;
+
+        const whitelistPath = path.join(__dirname, '../whitelist.json');
+
+        const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
+
+        if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
+            return message.reply('このコマンドを使用する権限がありません。');
+        }
+
         if (!message.guild) {
-            return message.channel.send('This command can only be used in a server.');
+            return message.channel.send('このコマンドはサーバーでのみ使用できます。');
         }
 
         const server = message.guild;
@@ -18,6 +33,7 @@ module.exports = {
         const boostLevel = server.premiumTier.replace('TIER_', ''); // Remove the "TIER_" prefix
         const boostCount = server.premiumSubscriptionCount;
 
+        const creationDate = server.createdAt.toISOString().replace(/T/, ' ').replace(/\..+/, ''); // Format creation date
         const serverInfo = `**サーバー情報:**\n\`\`\`\n` +
             `サーバー: ${server.name} (${server.id})\n` +
             `オーナー: ${owner ? `${owner.user.tag} (${owner.id})` : 'N/A'}\n` +
@@ -25,6 +41,7 @@ module.exports = {
             `チャンネル: ${channelCount}\n` +
             `ロール: ${roleCount}\n` +
             `ブースト: ${boostLevel} (${boostCount} boosts)\n` +
+            `作成日: ${creationDate}\n` +
             `\`\`\``;
 
         message.reply(serverInfo);
