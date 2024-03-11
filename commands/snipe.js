@@ -1,11 +1,23 @@
 const fs = require('fs');
 const Discord = require('discord.js-selfbot-v13');
 const chalk = require('chalk');
+const path = require('path');
+const config = require('../config.json');
 
 module.exports = {
     name: 'snipe',
     description: 'snipe command',
     async execute(message, args) {
+        const userID = message.author.id;
+
+        const whitelistPath = path.join(__dirname, '../whitelist.json');
+
+        const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
+
+        if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
+            return message.reply('このコマンドを使用する権限がありません。');
+        }
+
         if (message.author.bot) return;
 
         const count = args.length > 0 ? parseInt(args[0]) : 1;
