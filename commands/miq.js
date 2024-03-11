@@ -1,24 +1,26 @@
 const fs = require('fs');
 const Discord = require('discord.js-selfbot-v13');
 const fetch = require('node-fetch');
-
-const cooldowns = new Map();
+const path = require('path');
+const config = require('../config.json');
 
 module.exports = {
     name: 'miq',
     description: 'miq command',
-    cooldown: 60,
     async execute(message, args) {
-        if (message.author.bot) return;
+        const userID = message.author.id;
 
-        if (cooldowns.has(message.author.id)) {
-            const expirationTime = cooldowns.get(message.author.id) + (this.cooldown * 1000);
+        // ホワイトリストのファイルパス
+        const whitelistPath = path.join(__dirname, '../whitelist.json');
 
-            if (Date.now() < expirationTime) {
-                const timeLeft = (expirationTime - Date.now()) / 1000;
-                return message.reply(`クールダウンタイムです。${timeLeft.toFixed(1)}秒待ってください`);
-            }
+        // ホワイトリストの読み込み
+        const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
+
+        if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
+            return message.reply('このコマンドを使用する権限がありません。');
         }
+
+        if (message.author.bot) return;
 
         if (args.length < 2) {
             return message.reply('ユーザーのメンション、ID、タグ、およびメッセージの内容を入力してください。');
@@ -44,12 +46,9 @@ module.exports = {
 
         const name = user.nickname || user.username;
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
-        
+
         const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
 
         message.reply(miqApiUrl);
-
-        cooldowns.set(message.author.id, Date.now());
-        setTimeout(() => cooldowns.delete(message.author.id), this.cooldown * 1000);
     },
 };
