@@ -4,7 +4,7 @@ const config = require('../config.json');
 
 module.exports = {
     name: 'delete',
-    description: 'Remove user ID from whitelist',
+    description: 'delete command',
     execute(message, args) {
         const userID = message.author.id;
         if (userID === config.owner) {
