@@ -38,7 +38,7 @@ module.exports = {
 
       const download_link = `[Download](${image_url})`;
 
-      await message.reply(`Image Generated!\nPrompt: ${prompt}\n${download_link}`);
+      await message.reply(`画像を生成しました\n${prompt}\n${download_link}`);
     } catch (err) {
       await message.reply(
         `Image with that prompt can't be generated because of the safety system.`
