@@ -11,10 +11,9 @@ const openai = new OpenAIApi(configuration);
 
 module.exports = {
   name: "image",
-  description: "Creates AI Image Using Open AI Api!",
+  description: "image command",
   cooldown: 5,
   args: true,
-  usage: "<prompt>",
   async execute(message, args) {
     const userID = message.author.id;
 
