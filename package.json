@@ -10,6 +10,6 @@
     "chalk": "^4.1.2",
     "dotenv": "^16.3.1",
     "discord.js-selfbot-v13": "^2.14.10",
-    "openai": "^0.6.3"
+    "openai": "0.6.3"
   }
 }
