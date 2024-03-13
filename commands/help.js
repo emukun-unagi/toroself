@@ -19,7 +19,7 @@ module.exports = {
 
         const helpMessage = `**コマンド一覧:**\n\`\`\`\n` +
             `BOT: help, ping\n` +
-            `AI: gpt\n` +
+            `AI: gpt, image\n` +
             `情報: server\n` +
             `楽しい: snipe, miq\n` +
             `オーナー: addition, delete\n` +
