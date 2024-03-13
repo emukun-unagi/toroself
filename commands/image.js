@@ -1,4 +1,7 @@
 const { Configuration, OpenAIApi } = require("openai");
+const fs = require('fs');
+const path = require('path');
+const config = require('../config.json');
 
 const configuration = new Configuration({
   apiKey: process.env.apikey,
@@ -13,6 +16,16 @@ module.exports = {
   args: true,
   usage: "<prompt>",
   async execute(message, args) {
+    const userID = message.author.id;
+
+    const whitelistPath = path.join(__dirname, '../whitelist.json');
+
+    const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
+
+    if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
+      return message.reply('このコマンドを使用する権限がありません。');
+    }
+
     try {
       const prompt = args.join(" ");
 
