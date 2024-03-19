@@ -10,12 +10,14 @@ module.exports = {
         const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
         const userID = message.author.id;
 
+        // メッセージが返信されているか確認
         if (!message.reference) {
-            message.reply('このコマンドはメッセージに返信して使用してください。');
+            message.reply('このコマンドを使うには何かのメッセージに返信してください。');
             return;
         }
 
         if (whitelist.allowedUsers.includes(userID) || userID === config.owner) {
+            // 返信元のメッセージを取得
             const repliedMessage = message.channel.messages.cache.get(message.reference.messageID);
             if (!repliedMessage) {
                 message.reply('返信されたメッセージが見つかりませんでした。');
