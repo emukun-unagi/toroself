@@ -24,9 +24,9 @@ module.exports = {
 
             const replyMessage = `User: ${user.tag}\nAvatar: ${avatarURL}\nContent: ${content}\nAPI URL: ${apiUrl}`;
 
-            message.channel.send(replyMessage)
+            message.reply(replyMessage)
                 .catch(err => {
-                    console.error('Error sending message:', err);
+                    console.error('メッセージの送信中にエラーが発生しました:', err);
                 });
         }
     },
