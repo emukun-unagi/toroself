@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const Discord = require('discord.js-selfbot-v13');
 const config = require('../config.json');
 const whitelistPath = path.join(__dirname, '../whitelist.json');
 
@@ -16,17 +15,14 @@ module.exports = {
             const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
             const content = args.join(' ');
-            const avatarLink = encodeURIComponent(avatarURL);
-            const name = encodeURIComponent(user.username);
+            const name = encodeURIComponent(user.displayName);
             const tag = encodeURIComponent(user.tag);
             const contentEncoded = encodeURIComponent(content);
-            const apiUrl = `https://miq-api.onrender.com/type=color&name=${name}&id=${tag}&icon=${avatarLink}&content=${contentEncoded}`;
+            const apiUrl = `https://miq-api.onrender.com/type=color&name=${name}&id=${tag}&icon=${avatarURL}&content=${contentEncoded}`;
 
-            const replyMessage = `User: ${user.tag}\nAvatar: ${avatarURL}\nContent: ${content}\nAPI URL: ${apiUrl}`;
-
-            message.reply(replyMessage)
+            message.channel.send(apiUrl)
                 .catch(err => {
-                    console.error('メッセージの送信中にエラーが発生しました:', err);
+                    console.error('Error sending message:', err);
                 });
         }
     },
