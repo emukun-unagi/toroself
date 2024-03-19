@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Discord = require('discord.js');
+const Discord = require('discord.js-selfbot-v13');
 const config = require('../config.json');
 const whitelistPath = path.join(__dirname, '../whitelist.json');
 
