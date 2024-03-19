@@ -42,7 +42,7 @@ module.exports = {
             return message.reply('指定されたユーザーが見つかりません。');
         }
 
-        const name = user.nickname || user.username;
+        const name = user.displayName;
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
         const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
