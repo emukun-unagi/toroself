@@ -90,7 +90,7 @@ client.on('messageCreate', async message => {
       .then(data => {
         const imageUrl = data.url;
         message.channel.send({
-          content: "imageUrl",
+          content: imageUrl,
         });
       })
     }
