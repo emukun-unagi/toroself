@@ -50,7 +50,7 @@ module.exports = {
       const content = text;
       const option = color;
       const icon = user.displayAvatarURL();
-      const brand = client.user.tag;
+      const brand = "Make it a Quote#6660";
 
       fetch("https://api.voids.top/fakequote", {
         method: "POST",
