@@ -46,30 +46,30 @@ module.exports = {
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
         const displayName = user.displayName;
-      const name = user.username;
-      const content = text;
-      const option = color;
-      const icon = user.displayAvatarURL();
-      const brand = "Make it a Quote#6660";
+        const name = user.username;
+        const text = content;
+        const option = color;
+        const icon = user.displayAvatarURL();
+        const brand = "Make it a Quote#6660";
 
-      fetch("https://api.voids.top/fakequote", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          text: content,
-          avatar: icon,
-          username: name,
-          display_name: displayName,
-          color: option === "true" ? true : false,
-          watermark: brand,
+        fetch("https://api.voids.top/fakequote", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            text: text,
+            avatar: icon,
+            username: name,
+            display_name: displayName,
+            color: "true",
+            watermark: brand,
+          })
         })
-      })
-      .then(response => response.json())
-      .then(data => {
-        const imageUrl = data.url
-        message.reply(imageUrl);
-      })
+        .then(response => response.json())
+        .then(data => {
+          const imageUrl = data.url
+          message.reply(imageUrl);
+        })
     },
 };
