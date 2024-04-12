@@ -45,8 +45,31 @@ module.exports = {
         const name = user.displayName;
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
-        const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
+        const displayName = user.displayName;
+      const name = user.username;
+      const content = text;
+      const option = color;
+      const icon = user.displayAvatarURL();
+      const brand = client.user.tag;
 
-        message.reply(miqApiUrl);
+      fetch("https://api.voids.top/fakequote", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: content,
+          avatar: icon,
+          username: name,
+          display_name: displayName,
+          color: option === "true" ? true : false,
+          watermark: brand,
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const imageUrl = data.url
+        message.reply(imageUrl);
+      })
     },
 };
