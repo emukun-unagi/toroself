@@ -54,4 +54,47 @@ client.on('message', message => {
     }
 });
 
+client.on('messageCreate', async message => {
+  if (message.author.id === client.user.id) return;
+  if (message.author.bot) return;
+  if (message.mentions.users.has(client.user.id)) {
+    const url = /https?:\/\/discord\.com\/channels\/(\d+)\/(\d+)\/(\d+)/g;
+    const matches = url.exec(message.content);
+    if (matches) {
+      const [_, guildId, channelId, messageId] = matches;
+      const guild = await client.guilds.fetch(guildId);
+      const channel = await client.channels.fetch(channelId);
+      const fetchedMessage = await channel.messages.fetch(messageId);
+      const displayName = fetchedMessage.author.displayName;
+      const name = fetchedMessage.author.username;
+      const content = fetchedMessage.content;
+      const icon = fetchedMessage.author.displayAvatarURL();
+      const color = "true";
+      const brand = client.user.tag;
+
+      fetch("https://api.voids.top/fakequote", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: content,
+          avatar: icon,
+          username: name,
+          display_name: displayName,
+          color: color,
+          watermark: brand,
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const imageUrl = data.url;
+        message.channel.send({
+          content: "imageUrl",
+        });
+      })
+    }
+  }
+});
+
 client.login(process.env.token);
