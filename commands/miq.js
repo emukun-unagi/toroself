@@ -15,7 +15,7 @@ module.exports = {
         const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
 
         if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
-            return;
+            return message.reply('このコマンドを使用する権限がありません。');
         }
 
         if (message.author.bot) return;
@@ -41,33 +41,12 @@ module.exports = {
         if (!user) {
             return message.reply('指定されたユーザーが見つかりません。');
         }
-        
+
+        const name = user.nickname || user.username;
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
-        const displayName = user.displayName;
-        const name = user.username;
-        const text = content;
-        const icon = user.displayAvatarURL();
-        const brand = "Make it a Quote#6660";
+        const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
 
-        fetch("https://api.voids.top/fakequote", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            text: text,
-            avatar: icon,
-            username: name,
-            display_name: displayName,
-            color: "true",
-            watermark: brand,
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          const imageUrl = data.url
-          message.reply(imageUrl);
-        })
+        message.reply(miqApiUrl);
     },
 };
