@@ -41,8 +41,7 @@ module.exports = {
         if (!user) {
             return message.reply('指定されたユーザーが見つかりません。');
         }
-
-        const name = user.displayName;
+        
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
         const displayName = user.displayName;
