@@ -19,21 +19,11 @@ module.exports = {
 
     if (message.author.bot) return;
 
-    let targetUser = args[0];
-    let count = 1;
-
-    if (args.length > 1) {
-      count = parseInt(args[1]);
-    }
+    const targetUserID = args[0] ? args[0] : message.author.id;
+    const count = args.length > 1 ? parseInt(args[1]) : 1;
 
     if (isNaN(count) || count < 1) {
       return message.reply('取得するメッセージの数として、有効な正の整数を入力してください。');
-    }
-
-    if (targetUser) {
-      targetUser = targetUser.replace(/<@!?(\d+)>/, '$1');
-    } else {
-      targetUser = message.author.id;
     }
 
     const historyFilePath = `./history/${message.channel.id}.txt`;
@@ -50,25 +40,29 @@ module.exports = {
         return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
       }
 
-      let snipedMessage = null;
+      let targetMessages = [];
 
-      for (let i = messages.length - 1; i >= 0 && snipedMessage === null; i--) {
-        const messageLine = messages[i];
+      for (const messageText of messages) {
+        if (messageText.startsWith('deleted by') || messageText.startsWith('edited by')) {
+          const userIdIndex = messageText.lastIndexOf(' ');
+          const userId = messageText.slice(userIdIndex + 1);
 
-        if (messageLine.startsWith(`deleted by ${targetUser}`) || messageLine.startsWith(`edited by ${targetUser}`)) {
-          snipedMessage = messageLine;
+          if (userId === targetUserID) {
+            targetMessages.push(messageText);
+          }
 
-          for (let j = 1; j < count && i - j >= 0; j++) {
-            if (messages[i - j].startsWith(`deleted by ${targetUser}`) || messages[i - j].startsWith(`edited by ${targetUser}`)) {
-              snipedMessage = messages[i - j];
-            }
+          if (targetMessages.length === count) {
+            break;
           }
         }
       }
 
-      if (snipedMessage === null) {
-        return message.reply(`${chalk.red('エラー')}: 指定されたユーザーのメッセージ履歴には十分な削除されたメッセージがありません。`);
+      if (targetMessages.length === 0) {
+        return message.reply('該当するメッセージが見つかりませんでした。');
       }
+
+      targetMessages.reverse();
+      const snipedMessage = targetMessages[targetMessages.length - 1];
 
       message.reply(snipedMessage);
     });
