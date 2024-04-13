@@ -36,7 +36,7 @@ module.exports = {
         console.log(`Server: ${newMessage.guild.name} (ID: ${newMessage.guild.id})`);
         console.log(`Channel: ${newMessage.channel.name} (ID: ${newMessage.channel.id})`);
 
-        const historyFilePath = path.join(__dirname, `../history/${newMessage.channel.id}.txt`);
+        const historyFilePath = path.join(`./Database/History/${newMessage.channel.id}.txt`);
 
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             let history = '';
@@ -46,9 +46,9 @@ module.exports = {
             }
 
             if (newMessage.attachments.size > 0) {
-                history += `edited ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content} -> ${newMessage.content} (Image URL: ${newMessage.attachments.first().url})\n`;
+                history += `edited by ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content}\n↓\n${newMessage.content}\nImage URL:\n${newMessage.attachments.first().url})\nーーーーーーーーーーーーーーーーーーー\n`;
             } else {
-                history += `edited ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content} -> ${newMessage.content}\n`;
+                history += `edited by ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}:\n${oldMessage.content}\n↓\n${newMessage.content}\nーーーーーーーーーーーーーーーーーーー\n`;
             }
 
             fs.writeFile(historyFilePath, history, (err) => {
