@@ -46,9 +46,9 @@ module.exports = {
             }
 
             if (newMessage.attachments.size > 0) {
-                history += `edited by ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content.replace(/\n/g, ' ')} -> ${newMessage.content.replace(/\n/g, '\\n')} ImageURL: ${newMessage.attachments.first().url}\n`;
+                history += `edited by ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content.replace(/\n/g, ' ')} -> ${newMessage.content.replace(/\n/g, ' ')} ImageURL: ${newMessage.attachments.first().url}\n`;
             } else {
-                history += `edited by ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content.replace(/\n/g, ' ')} -> ${newMessage.content.replace(/\n/g, '\\n')}\n`;
+                history += `edited by ${newMessage.author ? newMessage.author.tag : 'Unknown Author'}: ${oldMessage.content.replace(/\n/g, ' ')} -> ${newMessage.content.replace(/\n/g, ' ')}\n`;
             }
 
             fs.writeFile(historyFilePath, history, (err) => {
