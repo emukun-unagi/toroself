@@ -45,9 +45,9 @@ module.exports = {
             }
 
             if (message.attachments.size > 0) {
-                history += `deleted by ${message.author ? message.author.tag : 'Unknown Author'}:\n${message.content}\nImage URL:\n${message.attachments.first().url}\nーーーーーーーーーーーーーーーーーーーー\n`;
+                history += `deleted by ${message.author ? message.author.tag : 'Unknown Author'}: ${message.content} Image URL: ${message.attachments.first().url}`;
             } else {
-                history += `deleted by ${message.author ? message.author.tag : 'Unknown Author'}:\n${message.content}\nーーーーーーーーーーーーーーーーーーーー\n`;
+                history += `deleted by ${message.author ? message.author.tag : 'Unknown Author'}: ${message.content}`;
             }
 
             fs.writeFile(historyFilePath, history, (err) => {
