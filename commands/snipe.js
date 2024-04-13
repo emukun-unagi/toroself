@@ -11,7 +11,6 @@ module.exports = {
         const userID = message.author.id;
 
         const whitelistPath = path.join(__dirname, '../whitelist.json');
-
         const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
 
         if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
@@ -34,7 +33,7 @@ module.exports = {
                 return message.reply('削除されたメッセージの取得中にエラーが発生しました。');
             }
 
-            const messages = data.trim().split('\n');
+            const messages = data.trim().split('\n-----\n');
 
             if (messages.length < count) {
                 return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
