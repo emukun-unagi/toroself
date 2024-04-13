@@ -40,21 +40,9 @@ module.exports = {
         return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
       }
 
-      if (targetUserID) {
-        const filteredMessages = messages.filter((message) => message.startsWith(`deleted by ${targetUserID}`) || message.startsWith(`edited by ${targetUserID}`));
+      const snipedMessage = messages[messages.length - count];
 
-        if (filteredMessages.length < count) {
-          return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${filteredMessages.length})`);
-        }
-
-        const snipedMessage = filteredMessages[filteredMessages.length - count];
-
-        message.reply(snipedMessage);
-      } else {
-        const snipedMessage = messages[messages.length - count];
-
-        message.reply(snipedMessage);
-      }
+      message.reply(snipedMessage);
     });
   },
 };
