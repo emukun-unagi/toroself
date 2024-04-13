@@ -19,11 +19,21 @@ module.exports = {
 
     if (message.author.bot) return;
 
-    const targetUserID = args.length > 0 ? args[0] : '';
-    const count = args.length > 1 ? parseInt(args[1]) : 1;
+    let targetUser = args[0];
+    let count = 1;
+
+    if (args.length > 1) {
+      count = parseInt(args[1]);
+    }
 
     if (isNaN(count) || count < 1) {
       return message.reply('取得するメッセージの数として、有効な正の整数を入力してください。');
+    }
+
+    if (targetUser) {
+      targetUser = targetUser.replace(/<@!?(\d+)>/, '$1');
+    } else {
+      targetUser = message.author.id;
     }
 
     const historyFilePath = `./history/${message.channel.id}.txt`;
@@ -36,25 +46,31 @@ module.exports = {
 
       const messages = data.trim().split('\n');
 
-      if (targetUserID) {
-        const filteredMessages = messages.filter((message) => message.startsWith(`deleted by ${targetUserID}`) || message.startsWith(`edited by ${targetUserID}`));
-
-        if (filteredMessages.length < count) {
-          return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${filteredMessages.length})`);
-        }
-
-        const snipedMessage = filteredMessages[filteredMessages.length - count];
-
-        message.reply(snipedMessage);
-      } else {
-        if (messages.length < count) {
-          return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
-        }
-
-        const snipedMessage = messages[messages.length - count];
-
-        message.reply(snipedMessage);
+      if (messages.length < count) {
+        return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
       }
+
+      let snipedMessage = null;
+
+      for (let i = messages.length - 1; i >= 0 && snipedMessage === null; i--) {
+        const messageLine = messages[i];
+
+        if (messageLine.startsWith(`deleted by ${targetUser}`) || messageLine.startsWith(`edited by ${targetUser}`)) {
+          snipedMessage = messageLine;
+
+          for (let j = 1; j < count && i - j >= 0; j++) {
+            if (messages[i - j].startsWith(`deleted by ${targetUser}`) || messages[i - j].startsWith(`edited by ${targetUser}`)) {
+              snipedMessage = messages[i - j];
+            }
+          }
+        }
+      }
+
+      if (snipedMessage === null) {
+        return message.reply(`${chalk.red('エラー')}: 指定されたユーザーのメッセージ履歴には十分な削除されたメッセージがありません。`);
+      }
+
+      message.reply(snipedMessage);
     });
   },
 };
