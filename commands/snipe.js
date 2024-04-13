@@ -10,8 +10,8 @@ module.exports = {
     const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
     const userID = message.author.id;
 
-    if (isNaN(args[0]) || parseInt(args[0]) <= 0) {
-      message.reply('Please specify a positive number.');
+    if (isNaN(args[0])) {
+      message.reply('Please specify a number.');
       return;
     }
 
@@ -23,16 +23,15 @@ module.exports = {
       return;
     }
 
-    const history = fs.readFileSync(historyPath, 'utf8').split('ーーーーーーーーーーーーーーーーーーー\n');
+    const history = fs.readFileSync(historyPath, 'utf8').split('ーーーーーーーーーーーーーーーーーー\n');
 
-    if (num > history.length) {
+    if (num > history.length || num < 1) {
       message.reply('Invalid number.');
       return;
     }
 
     if (whitelist.allowedUsers.includes(userID) || userID === config.owner) {
-      const startIndex = history.length - num;
-      const historyItem = history.slice(startIndex).join('ーーーーーーーーーーーーーーーーーーー\n').split('\n');
+      const historyItem = history[history.length - num].split('\n');
       let response = '';
 
       for (let i = 1; i < historyItem.length; i++) {
