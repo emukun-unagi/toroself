@@ -36,7 +36,7 @@ module.exports = {
         console.log(`Server: ${newMessage.guild.name} (ID: ${newMessage.guild.id})`);
         console.log(`Channel: ${newMessage.channel.name} (ID: ${newMessage.channel.id})`);
 
-        const historyFilePath = path.join(`./Database/History/${newMessage.channel.id}.txt`);
+        const historyFilePath = path.join(`./history/${newMessage.channel.id}.txt`);
 
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             let history = '';
