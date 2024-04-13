@@ -36,17 +36,25 @@ module.exports = {
 
       const messages = data.trim().split('\n');
 
-      const filteredMessages = targetUserID
-        ? messages.filter((message) => message.startsWith(`deleted by ${targetUserID}`) || message.startsWith(`edited by ${targetUserID}`))
-        : messages;
+      if (targetUserID) {
+        const filteredMessages = messages.filter((message) => message.startsWith(`deleted by ${targetUserID}`) || message.startsWith(`edited by ${targetUserID}`));
 
-      if (filteredMessages.length < count) {
-        return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${filteredMessages.length})`);
+        if (filteredMessages.length < count) {
+          return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${filteredMessages.length})`);
+        }
+
+        const snipedMessage = filteredMessages[filteredMessages.length - count];
+
+        message.reply(snipedMessage);
+      } else {
+        if (messages.length < count) {
+          return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
+        }
+
+        const snipedMessage = messages[messages.length - count];
+
+        message.reply(snipedMessage);
       }
-
-      const snipedMessage = filteredMessages[filteredMessages.length - count];
-
-      message.reply(snipedMessage);
     });
   },
 };
