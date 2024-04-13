@@ -57,7 +57,7 @@ module.exports = {
             return line;
           }
         })
-        .join('\n');
+        .slice(-1)[0];
 
       message.reply(reply);
     }
