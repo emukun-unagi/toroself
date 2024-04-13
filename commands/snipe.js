@@ -64,8 +64,6 @@ module.exports = {
             return message.reply('取得するメッセージの数として、有効な正の整数を入力してください。');
         }
 
-        const historyFilePath = `./history/${message.channel.id}.txt`;
-
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             if (err) {
                 console.error(`Error reading history file: ${err}`);
@@ -81,7 +79,7 @@ module.exports = {
             const snipedMessage = messages[messages.length - count];
 
             message.reply(snipedMessage);
-        }
-    });
+        });
+    }
   },
 };
