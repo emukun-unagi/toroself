@@ -5,66 +5,47 @@ const path = require('path');
 const config = require('../config.json');
 
 module.exports = {
-  name: 'snipe',
-  description: 'snipe command',
-  async execute(message, args) {
-    const userID = message.author.id;
+    name: 'snipe',
+    description: 'snipe command',
+    async execute(message, args) {
+        const userID = message.author.id;
 
-    const whitelistPath = path.join(__dirname, '../whitelist.json');
-    const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
+        const whitelistPath = path.join(__dirname, '../whitelist.json');
 
-    if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
-      return;
-    }
+        const whitelist = JSON.parse(fs.readFileSync(whitelistPath, 'utf8'));
 
-    if (message.author.bot) return;
+        if (!whitelist.allowedUsers.includes(userID) && userID !== config.owner) {
+            return;
+        }
 
-    const targetUserID = args[0] ? args[0] : message.author.id;
-    const count = args.length > 1 ? parseInt(args[1]) : 1;
+        if (message.author.bot) return;
 
-    if (isNaN(count) || count < 1) {
-      return message.reply('取得するメッセージの数として、有効な正の整数を入力してください。');
-    }
+        const targetUser = args[0];
+        const count = parseInt(args[1], 10) || 1;
 
-    const historyFilePath = `./history/${message.channel.id}.txt`;
+        if (isNaN(count) || count < 1) {
+            return message.reply('取得するメッセージの数として、有効な正の整数を入力してください。');
+        }
 
-    fs.readFile(historyFilePath, 'utf8', (err, data) => {
-      if (err) {
-        console.error(`Error reading history file: ${err}`);
-        return message.reply('削除されたメッセージの取得中にエラーが発生しました。');
-      }
+        const historyFilePath = `./history/${message.channel.id}.txt`;
 
-      const messages = data.trim().split('\n');
+        fs.readFile(historyFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error(`Error reading history file: ${err}`);
+                return message.reply('削除されたメッセージの取得中にエラーが発生しました。');
+            }
 
-      if (messages.length < count) {
-        return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
-      }
+            const messages = data.trim().split('\n');
 
-      let targetMessages = [];
+            const targetMessages = messages.filter(message => message.includes(`deleted by ${targetUser}`) || message.includes(`edited by ${targetUser}`));
 
-      for (const messageText of messages) {
-        if (messageText.startsWith('deleted by') || messageText.startsWith('edited by')) {
-          const userIdIndex = messageText.lastIndexOf(' ');
-          const userId = messageText.slice(userIdIndex + 1);
+            if (targetMessages.length < count) {
+                return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${targetMessages.length})`);
+            }
 
-          if (userId === targetUserID) {
-            targetMessages.push(messageText);
-          }
+            const snipedMessage = targetMessages[targetMessages.length - count];
 
-          if (targetMessages.length === count) {
-            break;
-          }
-        }
-      }
-
-      if (targetMessages.length === 0) {
-        return message.reply('該当するメッセージが見つかりませんでした。');
-      }
-
-      targetMessages.reverse();
-      const snipedMessage = targetMessages[targetMessages.length - 1];
-
-      message.reply(snipedMessage);
-    });
-  },
+            message.reply(snipedMessage);
+        });
+    },
 };
