@@ -39,9 +39,9 @@ module.exports = {
                 return message.reply(`履歴には十分な削除されたメッセージがありません。(現在のカウント: ${messages.length})`);
             }
 
-            const snipedMessage = messages[count - 1];
+            const snipedMessages = messages.slice(0, count);
 
-            message.reply(snipedMessage);
+            message.reply(snipedMessages.join('\n-----\n'));
         });
     },
 };
