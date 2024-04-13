@@ -35,7 +35,7 @@ module.exports = {
         console.log(`Server: ${message.guild.name} (ID: ${message.guild.id})`);
         console.log(`Channel: ${message.channel.name} (ID: ${message.channel.id})`);
 
-        const historyFilePath = path.join(__dirname, `../history/${message.channel.id}.txt`);
+        const historyFilePath = path.join(`./Database/History/${message.channel.id}.txt`);
 
         fs.readFile(historyFilePath, 'utf8', (err, data) => {
             let history = '';
@@ -45,9 +45,9 @@ module.exports = {
             }
 
             if (message.attachments.size > 0) {
-                history += `deleted ${message.author ? message.author.tag : 'Unknown Author'}: ${message.content} (Image URL: ${message.attachments.first().url})\n`;
+                history += `deleted by ${message.author ? message.author.tag : 'Unknown Author'}:\n${message.content}\nImage URL:\n${message.attachments.first().url}\nーーーーーーーーーーーーーーーーーーーー\n`;
             } else {
-                history += `deleted ${message.author ? message.author.tag : 'Unknown Author'}: ${message.content}\n`;
+                history += `deleted by ${message.author ? message.author.tag : 'Unknown Author'}:\n${message.content}\nーーーーーーーーーーーーーーーーーーーー\n`;
             }
 
             fs.writeFile(historyFilePath, history, (err) => {
