@@ -45,29 +45,31 @@ module.exports = {
         const name = user.displayName;
         const avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=1024`;
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.apikey}`
-            },
-            body: JSON.stringify({
-                model: 'text-davinci-003',
-                prompt: `${name} が ${contentImage} 一言 として言うと・・・`
-            })
-        };
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + process.env.apikey,
+                },
+                body: JSON.stringify({
+                    "model": "gpt-3.5-turbo",
+                    "messages": [{
+                        "role": "user",
+                        "content": `${name}が言いそうな${contentImage}一言`
+                    }]
+                })
+            });
 
-        try {
-            const response = await fetch('https://api.openai.com/v1/completions', requestOptions);
-            const data = await response.json();
-            const content = data.choices && data.choices[0] && data.choices[0].text ? data.choices[0].text.trim() : '';
+            const data = await response.json();
 
-            const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
-
-            message.reply(miqApiUrl);
-        } catch (error) {
-            console.error(error);
-            message.reply('OpenAI API にリクエストを送信できませんでした。');
-        }
+            if (data.choices && data.choices.length > 0) {
+                const replyText = data.choices[0].message.content.trim();
+                const content = reqlyText;
+                const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
+                message.reply(replyText);
+            } else {
+                console.error('GPT-3 API response is not in the expected format:', data);
+                message.reply('エラーが発生しました。後でもう一度やり直してください。');
+            }
     },
 };
