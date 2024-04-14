@@ -53,14 +53,14 @@ module.exports = {
             },
             body: JSON.stringify({
                 model: 'text-davinci-003',
-                prompt: `${name}が言いそうな${contentImage}一言`
+                prompt: `${name} が ${contentImage} 一言 として言うと・・・`
             })
         };
 
         try {
             const response = await fetch('https://api.openai.com/v1/completions', requestOptions);
             const data = await response.json();
-            const content = data.choices[0].text.trim();
+            const content = data.choices && data.choices[0] && data.choices[0].text ? data.choices[0].text.trim() : '';
 
             const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
 
