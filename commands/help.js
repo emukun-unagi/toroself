@@ -19,7 +19,7 @@ module.exports = {
 
         const helpMessage = `**コマンド一覧:**\n\`\`\`\n` +
             `BOT: help, ping\n` +
-            `AI: gpt, image\n` +
+            `AI: gpt, image, create\n` +
             `オーナー: addition, delete\n` +
             `\`\`\``;
         message.reply(helpMessage);
