@@ -5,8 +5,8 @@ const path = require('path');
 const config = require('../config.json');
 
 module.exports = {
-    name: 'miq',
-    description: 'miq command',
+    name: 'cwa',
+    description: 'cwa command',
     async execute(message, args) {
         const userID = message.author.id;
 
