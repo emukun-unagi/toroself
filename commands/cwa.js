@@ -67,7 +67,7 @@ module.exports = {
             if (replyText !== '') {
                 const content = replyText;
                 const miqApiUrl = `https://miq-api.onrender.com/?type=color&name=${encodeURIComponent(name)}&id=${encodeURIComponent(user.tag)}&icon=${encodeURIComponent(avatarURL)}&content=${encodeURIComponent(content)}`;
-                message.reply(replyText);
+                message.reply(miqApiUrl);
             } else {
                 console.error('GPT-3 API response is not in the expected format:', data);
                 message.reply('エラーが発生しました。後でもう一度やり直してください。');
